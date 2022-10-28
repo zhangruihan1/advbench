@@ -44,7 +44,7 @@ The structure of this repository is based on the (excellent) [domainbed](https:/
 Train a model:
 
 ```
-python -m advbench.scripts.train_no_validation --dataset CIFAR10 --algorithm KL_DALE_PD --output_dir train-output --test_attacks PGD_Linf
+python -m scripts.train_no_validation --dataset MNIST --algorithm RandSmoothing --output_dir train-output --test_attacks PGD_Linf
 ```
 
 Tally the results:
