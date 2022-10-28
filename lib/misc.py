@@ -6,7 +6,7 @@ from time import time
 import pandas as pd
 import torch.nn.functional as F
 
-from advbench.lib import meters
+from lib import meters
 
 def timing(f):
     @wraps(f)

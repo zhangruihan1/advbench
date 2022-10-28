@@ -1,7 +1,7 @@
 import numpy as np
 
-from advbench.lib import misc
-from advbench import datasets
+from lib import misc
+import datasets
 
 def default_hparams(algorithm, dataset):
     return {a: b for a, (b, c) in _hparams(algorithm, dataset, 0).items()}

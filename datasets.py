@@ -3,7 +3,7 @@ import torchvision.transforms as transforms
 from torchvision.datasets import CIFAR10 as CIFAR10_
 from torchvision.datasets import MNIST as MNIST_
 from torchvision.datasets import SVHN as SVHN_
-from RandAugment import RandAugment
+from torchvision.transforms import RandAugment
 
 SPLITS = ['train', 'val', 'test']
 DATASETS = ['CIFAR10', 'MNIST', 'SVHN']
@@ -58,7 +58,7 @@ class CIFAR10(AdvRobDataset):
             transforms.ToTensor()])
         test_transforms = transforms.ToTensor()
 
-        train_data = CIFAR10_(root, train=True, transform=train_transforms)
+        train_data = CIFAR10_(root, train=True, download = True, transform=train_transforms)
         self.splits['train'] = train_data
         # self.splits['train'] = Subset(train_data, range(5000))
 
@@ -97,7 +97,7 @@ class MNIST(AdvRobDataset):
         
         xforms = transforms.ToTensor()
 
-        train_data = MNIST_(root, train=True, transform=xforms)
+        train_data = MNIST_(root, train=True, download = True, transform=xforms)
         self.splits['train'] = train_data
         # self.splits['train'] = Subset(train_data, range(60000))
 

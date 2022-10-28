@@ -5,10 +5,10 @@ from collections import OrderedDict
 import pandas as pd
 import numpy as np
 
-from advbench import networks
-from advbench import optimizers
-from advbench import attacks
-from advbench.lib import meters
+import networks
+import optimizers
+import attacks
+from lib import meters
 
 ALGORITHMS = [
     'ERM',
@@ -491,7 +491,7 @@ class CVaR_SGD(Algorithm):
         eps = self.hparams['epsilon']
         return 2 * eps * torch.rand_like(imgs) - eps
 
-    def step(self, imgs, labels, batch_idx):
+    def step(self, imgs, labels, batch_idx=None):
 
         beta = self.hparams['cvar_sgd_beta']
         M = self.hparams['cvar_sgd_M']
@@ -600,7 +600,7 @@ class Gaussian_DALE_PD_Reverse(PrimalDualBase):
 
 class KL_DALE_PD(PrimalDualBase):
     def __init__(self, input_shape, num_classes, dataset, hparams, device, n_data):
-        super(KL_DALE_PD, self).__init__(input_shape, num_classes, dataset, hparams, device)
+        super().__init__(input_shape, num_classes, dataset, hparams, device, n_data)
         self.attack = attacks.TRADES_Linf(self.classifier, self.hparams, device)
         self.kl_loss_fn = nn.KLDivLoss(reduction='batchmean')
         self.pd_optimizer = optimizers.PrimalDualOptimizer(
@@ -608,7 +608,7 @@ class KL_DALE_PD(PrimalDualBase):
             margin=self.hparams['g_dale_pd_margin'],
             eta=self.hparams['g_dale_pd_step_size'])
 
-    def step(self, imgs, labels):
+    def step(self, imgs, labels, batch_idx):
         adv_imgs = self.attack(imgs, labels)
         self.optimizer.zero_grad()
         clean_loss = F.cross_entropy(self.predict(imgs), labels)

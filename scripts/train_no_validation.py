@@ -6,11 +6,11 @@ import pandas as pd
 import time
 from humanfriendly import format_timespan
 
-from advbench import datasets
-from advbench import algorithms
-from advbench import attacks
-from advbench import hparams_registry
-from advbench.lib import misc, meters
+import datasets
+import algorithms
+import attacks
+import hparams_registry
+from lib import misc, meters
 
 def main(args, hparams, test_hparams):
 
