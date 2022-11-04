@@ -24,7 +24,7 @@ def to_loaders(all_datasets, hparams):
 
 class AdvRobDataset(Dataset):
 
-    N_WORKERS = 8            # Default, subclasses may override
+    N_WORKERS = 2            # Default, subclasses may override
     INPUT_SHAPE = None       # Subclasses should override
     NUM_CLASSES = None       # Subclasses should override
     N_EPOCHS = None          # Subclasses should override

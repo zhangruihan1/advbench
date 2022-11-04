@@ -5,8 +5,8 @@ import pandas as pd
 import sys
 import os
 
-from advbench.lib import reporting, misc
-from advbench import datasets
+from lib import reporting, misc
+import datasets
 
 #TODO(AR): Currently no support for multiple trials
 
