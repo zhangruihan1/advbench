@@ -2,7 +2,7 @@
   "data_dir": "./advbench/data",
   "output_dir": "train-output",
   "dataset": "MNIST",
-  "algorithm": "CVaR_SGD",
+  "algorithm": "CVaR_Exact",
   "test_attacks": [
     "PGD_Linf"
   ],

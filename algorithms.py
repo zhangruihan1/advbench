@@ -24,6 +24,7 @@ ALGORITHMS = [
     'KL_DALE_PD',
     'FuncNorm',
     'CVaR_SGD',
+    'CVaR_Exact',
     'CVaR_SGD_Autograd',
     'CVaR_SGD_PD',
     'ERM_DataAug',
@@ -522,6 +523,37 @@ class CVaR_SGD(Algorithm):
         self.meters['loss'].update(cvar_loss.item(), n=imgs.size(0))
         self.meters['avg t'].update(ts.mean().item(), n=imgs.size(0))
         self.meters['plain loss'].update(plain_loss.item() / M, n=imgs.size(0))
+
+
+class CVaR_Exact(Algorithm):
+    def __init__(self, input_shape, num_classes, dataset, hparams, device, n_data):
+        super(CVaR_Exact, self).__init__(input_shape, num_classes, dataset, hparams, device)
+        self.meters['avg t'] = meters.AverageMeter()
+        self.meters['plain loss'] = meters.AverageMeter()
+
+    def sample_deltas(self, imgs):
+        eps = self.hparams['epsilon']
+        return 2 * eps * torch.rand_like(imgs) - eps
+
+    def step(self, imgs, labels, batch_idx=None):
+
+        beta = self.hparams['cvar_sgd_beta']
+        M = self.hparams['cvar_sgd_M']
+        imgs_ = imgs.repeat(M, 1, 1, 1)
+        pert_imgs = self.img_clamp(imgs_ + self.sample_deltas(imgs_))
+        curr_loss = F.cross_entropy(self.predict(pert_imgs), labels.repeat(M), reduction='none')
+        plain_loss = curr_loss.mean()
+        ts = np.quantile(curr_loss.detach().cpu(), 1 - beta)
+        self.optimizer.zero_grad()
+
+        cvar_loss = F.threshold(curr_loss, ts, 0.).mean() / beta
+        cvar_loss.backward()
+        self.optimizer.step()
+
+        self.meters['loss'].update(cvar_loss.item(), n=imgs.size(0))
+        self.meters['avg t'].update(ts.mean().item(), n=imgs.size(0))
+        self.meters['plain loss'].update(plain_loss.item() / M, n=imgs.size(0))
+
 
 class CVaR_SGD_PD(Algorithm):
     def __init__(self, input_shape, num_classes, dataset, hparams, device, n_data):
