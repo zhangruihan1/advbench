@@ -1,6 +1,6 @@
 # advbench
 
-From work of Alexander Robey etal.
+From work of Alexander Robey et al.
 At present, it supports the following baseline algorithms:
 
 * Empirical risk minimization (ERM, [Vapnik, 1998](https://www.wiley.com/en-fr/Statistical+Learning+Theory-p-9780471030034))
