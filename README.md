@@ -27,11 +27,11 @@ python -m scripts.train_no_validation --dataset MNIST --algorithm RandSmoothing 
 Tally the results:
 
 ```
-python -m advbench.scripts.collect_results --depth 0 --input_dir train-output
+python -m scripts.collect_results --depth 0 --input_dir train-output
 ```
 
 Plot the primal-dual results
 
 ```
-python -m advbench.plotting.primal_dual --input_dir train-output
+python -m plotting.primal_dual --input_dir train-output
 ```
