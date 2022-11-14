@@ -6,7 +6,7 @@ import pandas as pd
 import json
 import os
 
-from advbench.lib import reporting, plotting
+from lib import reporting, plotting
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Plot primal dual')
