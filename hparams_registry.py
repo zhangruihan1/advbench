@@ -101,7 +101,7 @@ def _hparams(algorithm: str, dataset: str, random_seed: int):
     # CVaR SGD
     _hparam('cvar_sgd_t_step_size', 1.0, lambda r: 0.001)
     _hparam('cvar_sgd_beta', 0.5, lambda r: 0.1)
-    _hparam('cvar_sgd_M', 20, lambda r: 10)
+    _hparam('cvar_sgd_M', 50, lambda r: 10)
     _hparam('cvar_sgd_n_steps', 5, lambda r: 10)
 
     # TERM
