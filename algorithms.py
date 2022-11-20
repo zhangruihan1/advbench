@@ -24,6 +24,7 @@ ALGORITHMS = [
     'KL_DALE_PD',
     'FuncNorm',
     'Approach_1',
+    'Approach_2',
     'CVaR_SGD',
     'CVaR_Exact',
     'CVaR_SGD_Autograd',
@@ -535,6 +536,39 @@ class Approach_1(Algorithm):
     def sample_deltas(self, imgs):
         eps = self.hparams['epsilon']
         return 2 * eps * torch.rand_like(imgs) - eps
+
+    def step(self, imgs, labels, batch_idx=None):
+
+        beta = self.hparams['cvar_sgd_beta']
+        M = self.hparams['cvar_sgd_M']
+        imgs_ = imgs.repeat(M, 1, 1, 1)
+        pert_imgs = self.img_clamp(imgs_ + self.sample_deltas(imgs_))
+        curr_loss = F.cross_entropy(self.predict(pert_imgs), labels.repeat(M), reduction='none')
+        plain_loss = curr_loss.mean()
+        self.optimizer.zero_grad()
+
+        sigma = torch.std(curr_loss.reshape(M, -1), dim = 0)
+        mu = torch.mean(curr_loss.reshape(M, -1), dim = 0)
+
+        loss = (mu + sigma).mean()
+        loss.backward()
+        self.optimizer.step()
+
+        self.meters['loss'].update(loss.item(), n=imgs.size(0))
+        self.meters['avg t'].update(sigma.mean().item(), n=imgs.size(0))
+        self.meters['plain loss'].update(plain_loss.item() / M, n=imgs.size(0))
+
+class Approach_2(Algorithm):
+    def __init__(self, input_shape, num_classes, dataset, hparams, device, n_data):
+        super(Approach_2, self).__init__(input_shape, num_classes, dataset, hparams, device)
+        self.meters['avg t'] = meters.AverageMeter()
+        self.meters['plain loss'] = meters.AverageMeter()
+
+    def sample_deltas(self, imgs):
+        eps = self.hparams['epsilon']
+        ub = imgs + eps
+        lb = imgs - eps
+        return (ub - lb) * torch.rand_like(imgs) + lb
 
     def step(self, imgs, labels, batch_idx=None):
 
