@@ -27,7 +27,7 @@ def _hparams(algorithm: str, dataset: str, random_seed: int):
     # Unconditional hparam definitions.
 
 
-    _hparam('batch_size', 64, lambda r: int(2 ** r.uniform(3, 8)))
+    _hparam('batch_size', 32, lambda r: int(2 ** r.uniform(3, 8)))
 
     # optimization
     _hparam('learning_rate', 0.01, lambda r: 10 ** r.uniform(-4.5, -2.5))
