@@ -535,7 +535,9 @@ class Approach_1(Algorithm):
 
     def sample_deltas(self, imgs):
         eps = self.hparams['epsilon']
-        return 2 * eps * torch.rand_like(imgs) - eps
+        ub = imgs + eps
+        lb = imgs - eps
+        return (ub - lb) * torch.rand_like(imgs) + lb
 
     def step(self, imgs, labels, batch_idx=None):
 
@@ -550,7 +552,7 @@ class Approach_1(Algorithm):
         sigma = torch.std(curr_loss.reshape(M, -1), dim = 0)
         mu = torch.mean(curr_loss.reshape(M, -1), dim = 0)
 
-        loss = (mu + sigma).mean()
+        loss = (mu + 0.1 * sigma).mean()
         loss.backward()
         self.optimizer.step()
 
