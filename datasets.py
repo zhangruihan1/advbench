@@ -16,7 +16,7 @@ def to_loaders(all_datasets, hparams):
             dataset=dataset, 
             batch_size=batch_size,
             num_workers=all_datasets.N_WORKERS,
-            shuffle=False)
+            shuffle=True)
             # shuffle=(split == 'train'))
     
     return [_to_loader(s, d) for (s, d) in all_datasets.splits.items()]
