@@ -575,7 +575,7 @@ class Approach_2(Algorithm):
         beta = self.hparams['cvar_sgd_beta']
         M = self.hparams['cvar_sgd_M']
         imgs_ = imgs.repeat(M, 1, 1, 1)
-        pert_imgs = self.img_clamp(imgs_ + self.sample_deltas(imgs_))
+        pert_imgs = self.img_clamp(self.sample_deltas(imgs_))
         curr_loss = F.cross_entropy(self.predict(pert_imgs), labels.repeat(M), reduction='none')
         plain_loss = curr_loss.mean()
         self.optimizer.zero_grad()
