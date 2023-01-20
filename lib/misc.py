@@ -164,23 +164,20 @@ def augmented_accuracy(algorithm, loader, device, test_hparams):
     aug_acc = 100. * correct / total
     aug_indiv_accs = 100. * torch.hstack(correct_indiv) / test_hparams['aug_n_samples']
 
-    def calc_beta_quant_acc(beta):
-        """Calculate the quantile accuracy for the augmented samples."""
-        beta_quant_indiv_accs = torch.where(
-            aug_indiv_accs > (1 - beta) * 100.,
-            100. * torch.ones_like(aug_indiv_accs),
-            torch.zeros_like(aug_indiv_accs))
-        beta_quant_acc = beta_quant_indiv_accs.mean().item()
-        return beta_quant_indiv_accs, beta_quant_acc
-
+    """Calculate the quantile accuracy for the augmented samples."""    
     # loop over betas, find corresponding quantile accuracies
     beta_quant_indiv_accs, beta_quant_accs = {}, {}
+    hypothesis_indiv_accs, hypothesis_accs = {}, {}
     for beta in test_hparams['test_betas']:
-        quant_indiv_acc, quant_acc = calc_beta_quant_acc(beta)
-        beta_quant_indiv_accs[beta] = quant_indiv_acc
-        beta_quant_accs[beta] = quant_acc
+        for significance, region in {0.1:1.282, 0.05:1.645, 0.01:2.326}.items():
+            beta_quant_indiv_accs[beta] = (aug_indiv_accs > (1 - beta) * 100.).float() * 100.
+            beta_quant_accs[beta] = beta_quant_indiv_accs[beta].mean().item()
+            
+            test_stats = ((aug_indiv_accs - 1 + beta) / (1e-10 + (aug_indiv_accs * (1 - aug_indiv_accs))**0.5 / 10))
+            hypothesis_indiv_accs[beta + str(significance)] = test_stats > region
+            hypothesis_accs[beta + str(significance)] = .mean().item()
 
-    return aug_acc, aug_indiv_accs, beta_quant_indiv_accs, beta_quant_accs
+    return aug_acc, aug_indiv_accs, beta_quant_indiv_accs, beta_quant_accs, hypothesis_indiv_accs, hypothesis_accs
 
 
 class Tee:
