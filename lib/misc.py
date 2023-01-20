@@ -174,8 +174,8 @@ def augmented_accuracy(algorithm, loader, device, test_hparams):
             beta_quant_accs[beta] = beta_quant_indiv_accs[beta].mean().item()
             
             test_stats = ((aug_indiv_accs - 1 + beta) / (1e-10 + (aug_indiv_accs * (1 - aug_indiv_accs))**0.5 / 10))
-            hypothesis_indiv_accs[beta + str(significance)] = test_stats > region
-            hypothesis_accs[beta + str(significance)] = (test_stats > region).float().mean().item()
+            hypothesis_indiv_accs[beta, significance] = test_stats > region
+            hypothesis_accs[beta, significance] = (test_stats > region).float().mean().item()
 
     return aug_acc, aug_indiv_accs, beta_quant_indiv_accs, beta_quant_accs, hypothesis_indiv_accs, hypothesis_accs
 
