@@ -15,6 +15,7 @@ ALGORITHMS = [
     'PGD',
     'FGSM',
     'TRADES',
+    'MART',
     'ALP',
     'CLP',
     'Gaussian_DALE',
