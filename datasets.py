@@ -40,7 +40,7 @@ class CIFAR10(AdvRobDataset):
  
     INPUT_SHAPE = (3, 32, 32)
     NUM_CLASSES = 10
-    N_EPOCHS = 115
+    N_EPOCHS = 300#115
     CHECKPOINT_FREQ = 10
     LOG_INTERVAL = 100
     HAS_LR_SCHEDULE = True
@@ -83,7 +83,7 @@ class MNIST(AdvRobDataset):
 
     INPUT_SHAPE = (1, 28, 28)
     NUM_CLASSES = 10
-    N_EPOCHS = 150
+    N_EPOCHS = 250
     CHECKPOINT_FREQ = 10
     LOG_INTERVAL = 100
     HAS_LR_SCHEDULE = False

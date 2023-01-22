@@ -11,7 +11,6 @@ import attacks
 from lib import meters
 
 ALGORITHMS = [
-    'MART',
     'ERM',
     'PGD',
     'FGSM',
