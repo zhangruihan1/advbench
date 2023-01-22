@@ -139,6 +139,7 @@ class SVHN(AdvRobDataset):
 
         train_data = SVHN_(root, split='train', transform=train_transforms, download=True)
         self.splits['train'] = train_data
+        self.splits['val'] = Subset(train_data, range(65000, 73257))
         self.splits['test'] = SVHN_(root, split='test', transform=test_transforms, download=True)
 
     @staticmethod
