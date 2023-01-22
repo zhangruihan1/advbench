@@ -76,13 +76,13 @@ def main(args, hparams, test_hparams):
         add_results_row([epoch, test_clean_acc, 'ERM', 'Test'])
 
         # save quantile accuracies on test sets
-        test_aug_acc, test_aug_indiv_accs, test_quant_indiv_accs, test_quant_accs, _, hypothesis_accs = misc.augmented_accuracy(
-            algorithm, test_ldr, device, test_hparams)
-        add_results_row([epoch, test_aug_acc, 'Augmented-ERM', 'Test'])
-        for beta in test_hparams['test_betas']:
-            add_results_row([epoch, test_quant_accs[beta], f'{beta}-Quantile', 'Test'])
-        for k, v in hypothesis_accs.items():
-            add_results_row([epoch, v, f'{k}-level', 'Test'])
+#         test_aug_acc, test_aug_indiv_accs, test_quant_indiv_accs, test_quant_accs, _, hypothesis_accs = misc.augmented_accuracy(
+#             algorithm, test_ldr, device, test_hparams)
+#         add_results_row([epoch, test_aug_acc, 'Augmented-ERM', 'Test'])
+#         for beta in test_hparams['test_betas']:
+#             add_results_row([epoch, test_quant_accs[beta], f'{beta}-Quantile', 'Test'])
+#         for k, v in hypothesis_accs.items():
+#             add_results_row([epoch, v, f'{k}-level', 'Test'])
 
         # save cvar loss on test sets
         # test_cvar_loss = misc.cvar_grad_loss(algorithm, test_ldr, device, test_hparams)
@@ -95,11 +95,11 @@ def main(args, hparams, test_hparams):
             add_results_row([epoch, test_adv_acc, attack_name, 'Test'])
             test_adv_accs.append(test_adv_acc)
             
-            if test_adv_acc > max_adv_acc:
-                torch.save(
-                    {'model': algorithm.classifier.state_dict()}, 
-                    os.path.join(args.output_dir, f'ckpt_{epoch}.pkl'))
-                max_adv_acc = test_adv_acc
+#             if test_adv_acc > max_adv_acc:
+#                 torch.save(
+#                     {'model': algorithm.classifier.state_dict()}, 
+#                     os.path.join(args.output_dir, f'ckpt_{epoch}.pkl'))
+#                 max_adv_acc = test_adv_acc
                 
 
         epoch_end = time.time()
@@ -119,13 +119,13 @@ def main(args, hparams, test_hparams):
         # print(f'\tCVaR: {test_cvar_loss:.3f}')
         print('Accuracies:')
         print(f'\tClean: {test_clean_acc:.3f}')
-        print(f'\tAugmented: {test_aug_acc:.3f}')
+#         print(f'\tAugmented: {test_aug_acc:.3f}')
         for attack_name, acc in zip(test_attacks.keys(), test_adv_accs):
             print(f'\t{attack_name}: {acc:.3f}')
-        for beta in test_hparams['test_betas']:
-            print(f'\t{beta}-Quantile: {test_quant_accs[beta]:.3f}')
-        for k, v in hypothesis_accs.items():
-            print(f'\t{k}-level: {v:.3f}')
+#         for beta in test_hparams['test_betas']:
+#             print(f'\t{beta}-Quantile: {test_quant_accs[beta]:.3f}')
+#         for k, v in hypothesis_accs.items():
+#             print(f'\t{k}-level: {v:.3f}')
 
         # save results dataframe to file
         results_df.to_pickle(os.path.join(args.output_dir, 'results.pkl'))
