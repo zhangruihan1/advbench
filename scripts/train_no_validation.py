@@ -86,11 +86,11 @@ def main(args, hparams, test_hparams):
         # add_loss_row([epoch, test_cvar_loss, 'CVaR', 'Test'])
 
         # save adversarial accuracies on test sets
-        test_adv_accs = []
-        for attack_name, attack in test_attacks.items():
-            test_adv_acc = misc.adv_accuracy(algorithm, test_ldr, device, attack)
-            add_results_row([epoch, test_adv_acc, attack_name, 'Test'])
-            test_adv_accs.append(test_adv_acc)
+        # test_adv_accs = []
+        # for attack_name, attack in test_attacks.items():
+        #     test_adv_acc = misc.adv_accuracy(algorithm, test_ldr, device, attack)
+        #     add_results_row([epoch, test_adv_acc, attack_name, 'Test'])
+        #     test_adv_accs.append(test_adv_acc)
 
         epoch_end = time.time()
         total_time += epoch_end - epoch_start
@@ -102,16 +102,16 @@ def main(args, hparams, test_hparams):
         print(f'Training alg: {args.algorithm}\t', end='')
         print(f'Dataset: {args.dataset}\t', end='')
         print(f'Path: {args.output_dir}')
-        print('Avg. training losses:')
-        for name, meter in algorithm.meters.items():
-            print(f'\t{name}: {meter.avg:.3f}', end='')
+        # print('Avg. training losses:')
+        # for name, meter in algorithm.meters.items():
+        #     print(f'\t{name}: {meter.avg:.3f}', end='')
         # print('\nAvg. test losses:')
         # print(f'\tCVaR: {test_cvar_loss:.3f}')
         print('Accuracies:')
         print(f'\tClean: {test_clean_acc:.3f}')
         # print(f'\tAugmented: {test_aug_acc:.3f}')
-        for attack_name, acc in zip(test_attacks.keys(), test_adv_accs):
-            print(f'\t{attack_name}: {acc:.3f}')
+        # for attack_name, acc in zip(test_attacks.keys(), test_adv_accs):
+        #     print(f'\t{attack_name}: {acc:.3f}')
         # for beta in test_hparams['test_betas']:
         #     print(f'\t{beta}-Quantile: {test_quant_accs[beta]:.3f}')
 
