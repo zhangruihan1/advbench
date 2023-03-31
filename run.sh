@@ -1,12 +1,6 @@
-python -m scripts.train_no_validation --dataset CIFAR10 --algorithm RandSmoothing --output_dir train-output-RandSmoothing-CIFAR10 --test_attacks PGD_Linf;
-python -m scripts.collect_results --depth 0 --input_dir train-output-RandSmoothing-CIFAR10 >> results.txt;
-python -m scripts.train_no_validation --dataset MNIST --algorithm RandSmoothing --output_dir train-output-RandSmoothing-MNIST --test_attacks PGD_Linf;
-python -m scripts.collect_results --depth 0 --input_dir train-output-RandSmoothing-MNIST >> results.txt;
-python -m scripts.train_no_validation --dataset SVHN --algorithm RandSmoothing --output_dir train-output-RandSmoothing-SVHN --test_attacks PGD_Linf;
-python -m scripts.collect_results --depth 0 --input_dir train-output-RandSmoothing-SVHN >> results.txt;
-python -m scripts.train_no_validation --dataset CIFAR10 --algorithm CVaR_SGD --output_dir train-output-CVaR_SGD-CIFAR10 --test_attacks PGD_Linf;
-python -m scripts.collect_results --depth 0 --input_dir train-output-CVaR_SGD-CIFAR10 >> results.txt;
-python -m scripts.train_no_validation --dataset MNIST --algorithm CVaR_SGD --output_dir train-output-CVaR_SGD-MNIST --test_attacks PGD_Linf;
-python -m scripts.collect_results --depth 0 --input_dir train-output-CVaR_SGD-MNIST >> results.txt;
-python -m scripts.train_no_validation --dataset SVHN --algorithm CVaR_SGD --output_dir train-output-CVaR_SGD-SVHN --test_attacks PGD_Linf;
-python -m scripts.collect_results --depth 0 --input_dir train-output-CVaR_SGD-SVHN >> results.txt;
+python -m scripts.train_no_validation --dataset CIFAR10 --algorithm CVaR_Exact --output_dir train-output-CVaR_Exact-CIFAR10 --test_attacks PGD_Linf;
+python -m scripts.collect_results --depth 0 --input_dir train-output-CVaR_Exact-CIFAR10 >> results.txt;
+python -m scripts.train_no_validation --dataset MNIST --algorithm CVaR_Exact --output_dir train-output-CVaR_Exact-MNIST --test_attacks PGD_Linf;
+python -m scripts.collect_results --depth 0 --input_dir train-output-CVaR_Exact-MNIST >> results.txt;
+python -m scripts.train_no_validation --dataset SVHN --algorithm CVaR_Exact --output_dir train-output-CVaR_Exact-SVHN --test_attacks PGD_Linf;
+python -m scripts.collect_results --depth 0 --input_dir train-output-CVaR_Exact-SVHN >> results.txt;
