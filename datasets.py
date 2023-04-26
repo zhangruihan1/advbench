@@ -145,11 +145,11 @@ class SVHN(AdvRobDataset):
     @staticmethod
     def adjust_lr(optimizer, epoch, hparams):
         lr = hparams['learning_rate']
-        if epoch >= 55:    # 150
+        if epoch >= 80:    # 150
             lr = hparams['learning_rate'] * 0.1
-        if epoch >= 75:    # 175
+        if epoch >= 120:    # 175
             lr = hparams['learning_rate'] * 0.01
-        if epoch >= 90:    # 190
-            lr = hparams['learning_rate'] * 0.001
+        # if epoch >= 90:    # 190
+        #     lr = hparams['learning_rate'] * 0.001
         for param_group in optimizer.param_groups:
             param_group['lr'] = lr

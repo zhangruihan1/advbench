@@ -124,10 +124,10 @@ def main(args, hparams, test_hparams):
         meters_df.to_pickle(os.path.join(args.output_dir, 'meters.pkl'))
         algorithm.reset_meters()
 
-        if epoch%20 == 0:
-            torch.save(
-            {'model': algorithm.state_dict()}, 
-            os.path.join(args.output_dir, f'ckpt_{epoch}.pkl'))
+        # if epoch%20 == 0:
+        torch.save(
+        {'model': algorithm.state_dict()}, 
+        os.path.join(args.output_dir, f'ckpt_{epoch}.pkl'))
 
     torch.save(
         {'model': algorithm.state_dict()}, 
