@@ -123,7 +123,7 @@ class SVHN(AdvRobDataset):
      
     INPUT_SHAPE = (3, 32, 32)
     NUM_CLASSES = 10
-    N_EPOCHS = 115
+    N_EPOCHS = 10000
     CHECKPOINT_FREQ = 10
     LOG_INTERVAL = 100
     HAS_LR_SCHEDULE = False
